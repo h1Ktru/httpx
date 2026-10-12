@@ -119,7 +119,7 @@ def _parse_header_links(value: str) -> list[dict[str, str]]:
         link = {"url": url.strip("<> '\"")}
         for param in params.split(";"):
             try:
-                key, value = param.split("=")
+                key, value = param.split("=", 1)
             except ValueError:
                 break
             link[key.strip(replace_chars)] = value.strip(replace_chars)
@@ -767,6 +767,10 @@ class Response:
         A property which is `True` for 4xx and 5xx status codes, `False` otherwise.
         """
         return codes.is_error(self.status_code)
+
+    @property
+    def is_retryable(self) -> bool:
+        return self.status_code in [429, 500, 502, 503, 504]
 
     @property
     def has_redirect_location(self) -> bool:
