@@ -206,6 +206,28 @@ def test_obfuscate_sensitive_headers(headers, output):
                 {"url": "http://.../back.jpeg"},
             ],
         ),
+        # additional1
+        (
+            '<https://example.com/page2>; rel="next"; title="page=2"',
+            [
+                {
+                    "url": "https://example.com/page2",
+                    "rel": "next",
+                    "title": "page=2",
+                }
+            ],
+        ),
+        # additional2
+        (
+            '<https://example.com/page2>; rel="next"; title="a=b=c"',
+            [
+                {
+                    "url": "https://example.com/page2",
+                    "rel": "next",
+                    "title": "a=b=c",
+                }
+            ],
+        ),
         ("", []),
     ),
 )
